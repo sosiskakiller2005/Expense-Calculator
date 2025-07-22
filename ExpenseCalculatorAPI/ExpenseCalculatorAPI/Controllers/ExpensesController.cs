@@ -18,7 +18,7 @@ namespace ExpenseCalculatorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetExpenses([FromQuery]GetExpensesRequest request)
+        public async Task<IActionResult> GetExpenses([FromQuery] GetExpensesRequest request)
         {
             var expensesQuery = Enumerable.Empty<Expense>().AsQueryable(); // инициализация пустым запросом
             if (request.selectedCategory != null)
@@ -60,6 +60,42 @@ namespace ExpenseCalculatorAPI.Controllers
                 .ToListAsync();
 
             return Ok(new GetExpensesResponse(expensesDtos));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddExpense([FromBody] PostExpenseRequest request)
+        {
+            if (request == null || request.Amount <= 0 || request.CategoryId <= 0)
+            {
+                return BadRequest("Invalid expense data.");
+            }
+            var category = await _context.Categories.FindAsync(request.CategoryId);
+            if (category == null)
+            {
+                return NotFound("Category not found.");
+            }
+            var newExpense = new Expense
+            {
+                Amount = request.Amount,
+                Category = category,
+                DateTime = DateTime.UtcNow
+            };
+            _context.Expenses.Add(newExpense);
+            await _context.SaveChangesAsync();
+            return Ok(new PostExpenseDto(newExpense.Id, newExpense.Amount, newExpense.CategoryId, newExpense.DateTime));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteExpense(int id)
+        {
+            var expense = await _context.Expenses.FindAsync(id);
+            if (expense == null)
+            {
+                return NotFound("Expense not found.");
+            }
+            _context.Expenses.Remove(expense);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
 }
