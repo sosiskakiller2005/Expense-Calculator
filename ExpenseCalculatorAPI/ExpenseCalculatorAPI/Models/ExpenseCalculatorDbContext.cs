@@ -37,6 +37,7 @@ public partial class ExpenseCalculatorDbContext : DbContext
             entity.ToTable("Expense");
 
             entity.Property(e => e.Amount).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.Comment).HasMaxLength(50);
             entity.Property(e => e.DateTime).HasColumnType("datetime");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Expenses)

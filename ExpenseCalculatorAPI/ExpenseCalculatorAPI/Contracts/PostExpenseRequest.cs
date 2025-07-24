@@ -2,5 +2,5 @@
 
 namespace ExpenseCalculatorAPI.Contracts
 {
-    public record PostExpenseRequest(decimal Amount, DateTime DateTime, int CategoryId);
+    public record PostExpenseRequest(decimal Amount, DateTime DateTime, int CategoryId, string? Comment);
 }

@@ -13,5 +13,7 @@ public partial class Expense
 
     public DateTime DateTime { get; set; }
 
+    public string? Comment { get; set; }
+
     public virtual Category Category { get; set; } = null!;
 }

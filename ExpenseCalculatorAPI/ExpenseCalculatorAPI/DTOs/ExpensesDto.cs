@@ -2,5 +2,5 @@
 
 namespace ExpenseCalculatorAPI.DTOs
 {
-    public record ExpenseDto(int Id, decimal Amount, Category Category, DateTime DateTime);
+    public record ExpenseDto(int Id, decimal Amount, Category Category, DateTime DateTime, string? Comment);
 }

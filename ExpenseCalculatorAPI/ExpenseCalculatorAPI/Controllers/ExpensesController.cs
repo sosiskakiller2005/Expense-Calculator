@@ -56,7 +56,7 @@ namespace ExpenseCalculatorAPI.Controllers
                 expensesQuery.OrderBy(selectorKey);
 
             var expensesDtos = await expensesQuery
-                .Select(e => new ExpenseDto(e.Id, e.Amount, e.Category, e.DateTime))
+                .Select(e => new ExpenseDto(e.Id, e.Amount, e.Category, e.DateTime, e.Comment))
                 .ToListAsync();
 
             return Ok(new GetExpensesResponse(expensesDtos));
@@ -82,7 +82,7 @@ namespace ExpenseCalculatorAPI.Controllers
             };
             _context.Expenses.Add(newExpense);
             await _context.SaveChangesAsync();
-            return Ok(new PostExpenseDto(newExpense.Id, newExpense.Amount, newExpense.CategoryId, newExpense.DateTime));
+            return Ok(new PostExpenseDto(newExpense.Id, newExpense.Amount, newExpense.CategoryId, newExpense.DateTime, newExpense.Comment));
         }
 
         [HttpDelete("{id}")]
