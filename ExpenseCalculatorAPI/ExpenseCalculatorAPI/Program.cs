@@ -11,6 +11,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ExpenseCalculatorDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "https://localhost:5173", "https://localhost:7170", "http://localhost:5065")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -22,17 +31,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors();
 }
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddDefaultPolicy(policy =>
-//    {
-//        policy.WithOrigins("http://localhost:5173")
-//              .AllowAnyMethod()
-//              .AllowAnyHeader();
-//    });
-//});
 
 app.UseHttpsRedirection();
 app.UseCors();

@@ -21,15 +21,15 @@ namespace ExpenseCalculatorAPI.Controllers
         public async Task<IActionResult> GetExpenses([FromQuery] GetExpensesRequest request)
         {
             var expensesQuery = Enumerable.Empty<Expense>().AsQueryable(); // инициализация пустым запросом
-            if (request.selectedCategory != null)
+            if (request.CategoryName != null)
             {
                 if (request.endDate != null && request.startDate != null)
                 {
-                    expensesQuery = _context.Expenses.Where(e => e.Category == request.selectedCategory && e.DateTime <= request.endDate && e.DateTime >= request.startDate);
+                    expensesQuery = _context.Expenses.Where(e => e.Category.Name.ToLower() == request.CategoryName.ToLower() && e.DateTime <= request.endDate && e.DateTime >= request.startDate);
                 }
                 else
                 {
-                    expensesQuery = _context.Expenses.Where(e => e.Category == request.selectedCategory);
+                    expensesQuery = _context.Expenses.Where(e => e.Category.Name.ToLower() == request.CategoryName.ToLower());
                 }
             }
             else

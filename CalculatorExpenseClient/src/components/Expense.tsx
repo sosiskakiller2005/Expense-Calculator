@@ -1,13 +1,12 @@
-import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@heroui/react";
-import { title } from "@/components/primitives";
+import { Card, CardHeader, CardBody, CardFooter, Divider } from "@heroui/react";
 import ExpenseProps from "@/props/ExpenseProps";
 
 
-export default function Expense({id, amount, datetime, comment, category}: ExpenseProps) {
+export default function Expense({ id, amount, dateTime, comment, category }: ExpenseProps) {
     return (
         <Card className="max-w-[400px]">
             <CardHeader className="flex gap-3">
-                <h1 className={title({size: 'sm'})}>{category?.name}, {amount}</h1>
+                <h1 className='font-bold text-lg'>{category?.name}, {amount}</h1>
             </CardHeader>
             <Divider />
             <CardBody>
@@ -15,7 +14,7 @@ export default function Expense({id, amount, datetime, comment, category}: Expen
             </CardBody>
             <Divider />
             <CardFooter>
-                <p>{datetime.toLocaleDateString()}</p>
+                <p>{dateTime ? new Date(dateTime).toLocaleDateString() : "—"}</p>
             </CardFooter>
         </Card>
     )
