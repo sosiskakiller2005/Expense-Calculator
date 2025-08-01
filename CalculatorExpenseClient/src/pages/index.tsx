@@ -1,7 +1,7 @@
 import { DateRangePicker } from "@heroui/date-picker";
 import { title } from "@/components/primitives";
 import DefaultLayout from "@/layouts/default";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Filters from "@/components/Filters";
 import ExpenseProps from "@/props/ExpenseProps";
 import { getExpenses } from "@/services/getExpenses";
@@ -32,14 +32,17 @@ export default function IndexPage() {
     }
 
     getData();
-  });
+  }, []);
+  const handleCategoryChange = useCallback((name: string) => {
+    setFilter({categoryName: name});
+  }, []);
 
   return (
     <DefaultLayout>
       <div className="flex justify-between mb-4">
         <section className="flex flex-col gap-4">
           <h1 className={title()}>Ваши траты</h1>
-          <Filters/>
+          <Filters onCategoryChange={(name) => setFilter({categoryName: name})}/>
             <ul className="flex flex-col mt-4 gap-4">
               {expenses.map((e) => {
                 return (
