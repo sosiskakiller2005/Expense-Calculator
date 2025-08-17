@@ -25,7 +25,7 @@ namespace ExpenseCalculatorAPI.Controllers
             {
                 if (request.endDate != null && request.startDate != null)
                 {
-                    expensesQuery = _context.Expenses.Where(e => e.Category.Name.ToLower() == request.CategoryName.ToLower() && e.DateTime <= request.endDate && e.DateTime >= request.startDate);
+                    expensesQuery = _context.Expenses.Where(e => e.Category.Name.ToLower() == request.CategoryName.ToLower() && e.DateTime.Date <= request.endDate && e.DateTime >= request.startDate);
                 }
                 else
                 {

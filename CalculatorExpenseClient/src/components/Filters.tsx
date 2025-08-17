@@ -1,12 +1,12 @@
 import CategoryProps from "@/props/CategoryProps";
 import { getCategories } from "@/services/getCategories";
 import { DateRangePicker } from "@heroui/date-picker";
-import { Select, SelectSection, SelectItem } from "@heroui/react";
+import { Select, SelectItem } from "@heroui/react";
 import { useEffect, useState } from "react";
 import FilterProps from "@/props/FilterProps";
-import {getLocalTimeZone, parseDate, today} from "@internationalized/date";
+import { getLocalTimeZone, today } from "@internationalized/date";
 
-export default function Filters({ onCategoryChange }: FilterProps) {
+export default function Filters({ onCategoryChange, onDateChange }: FilterProps) {
     const [categories, setCategories] = useState<CategoryProps[]>([]);
     useEffect(() => {
         const getData = async () => {
@@ -25,10 +25,17 @@ export default function Filters({ onCategoryChange }: FilterProps) {
                 label="Выбранный период"
                 visibleMonths={2}
                 maxValue={today(getLocalTimeZone())}
+                onChange={(range) => {
+                    if (range?.start && range?.end) {
+                        onDateChange(range.start.toDate(getLocalTimeZone()), range.end.toDate(getLocalTimeZone()));
+                    } else {
+                        onDateChange(undefined, undefined);
+                    }
+                }}
             />
-            <Select label='Категории' placeholder="Выберите категории" isClearable={true} onSelectionChange={
+            <Select label='Категории' placeholder="Выберите категорию" isClearable={true} onSelectionChange={
                 (keySet) => {
-                    const selectedKey = Array.from(keySet)[0]; // достаём выбранный ключ
+                    const selectedKey = Array.from(keySet)[0];
                     const selectedCategory = categories.find((c) => c.id.toString() === selectedKey);
                     onCategoryChange(selectedCategory?.name || "");
                 }
@@ -40,3 +47,4 @@ export default function Filters({ onCategoryChange }: FilterProps) {
         </div>
     )
 }
+

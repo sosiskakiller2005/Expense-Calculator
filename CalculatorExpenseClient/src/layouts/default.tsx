@@ -1,6 +1,7 @@
 import { Link } from "@heroui/link";
 
 import { Navbar } from "@/components/navbar";
+import { GithubIcon } from "@/components/icons";
 
 export default function DefaultLayout({
   children,
@@ -22,6 +23,7 @@ export default function DefaultLayout({
         >
           <span className="text-default-600">Powered by</span>
           <p className="text-primary">sosiskakiller2005</p>
+        <GithubIcon/>
         </Link>
       </footer>
     </div>
