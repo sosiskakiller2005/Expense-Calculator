@@ -1,5 +1,5 @@
 export default interface ExpenseProps {
-    id:number;
+    id?:number;
     amount: number;
     dateTime: Date;
     comment?: string;

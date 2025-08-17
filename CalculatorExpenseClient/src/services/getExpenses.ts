@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getExpenses = async (filter: { categoryName: string }) => {
+export const getExpenses = async (filter: { categoryName: string, startDate: Date, endDate: Date }) => {
     try {
       const dbURL = import.meta.env.VITE_DATABASE_URL;
   
@@ -8,7 +8,9 @@ export const getExpenses = async (filter: { categoryName: string }) => {
   
       const response = await axios.get(`${dbURL}/Expenses`, {
         params: {
-          categoryName: filter?.categoryName
+          categoryName: filter?.categoryName,
+          startDate: filter.startDate ? filter.startDate.toISOString() : undefined,
+          endDate: filter.endDate ? filter.endDate.toISOString() : undefined,
         }
       });
   
